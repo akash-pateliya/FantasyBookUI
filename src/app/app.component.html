@@ -1,0 +1,103 @@
+<div class="page-header">
+  <dl class="dl-horizontal">
+    <dt>Total Investment</dt>
+    <dd>{{ TotalInvestment }}</dd>
+    <dt>Total Winnings</dt>
+    <dd>{{ TotalWinnings }}</dd>
+    <dt>Total Profit / Loss</dt>
+    <dd>{{ TotalProfitLoss }}</dd>
+  </dl>
+</div>
+<ag-grid-angular #myGrid style="width: 1500px; height: 550px;" class="ag-theme-alpine" [rowData]="rowData"
+  [columnDefs]="columnDefs">
+</ag-grid-angular>
+
+<div class="page-footer">
+  <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
+  <button (click)="updateData()" type="button" class="btn btn-warning">Update Data</button>
+  <button (click)="deleteData()" type="button" class="btn btn-danger">Delete Data</button>
+</div>
+<!-- Creates the bootstrap modal where the image will appear -->
+<div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Register</h4>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Tour</label>
+
+                <select id="country" formControlName="tour" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.tour.errors }">
+                  <option *ngFor="let c of TourLib" [ngValue]="c">{{ c }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Round</label>
+                <input type="text" formControlName="round" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.round.errors }" />
+                <div *ngIf="submitted && f.round.errors" class="invalid-feedback">
+                  <div *ngIf="f.round.errors.required">Round is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Match Date</label>
+                <input formControlName="dateTime" [ngClass]="{ 'is-invalid': submitted && f.dateTime.errors }"
+                  class="form-control" ngbDatepicker (click)="datePicker.toggle()" #datePicker="ngbDatepicker"
+                  placeholder="dd-MM-yyyy">
+                <div *ngIf="submitted && f.dateTime.errors" class="invalid-feedback">
+                  <div *ngIf="f.dateTime.errors.required">DateTime is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Investment</label>
+                <input type="text" formControlName="investment" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.investment.errors }" />
+                <div *ngIf="submitted && f.investment.errors" class="invalid-feedback">
+                  <div *ngIf="f.investment.errors">Investment should be greater than 0</div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Winnings</label>
+                <input type="text" formControlName="winnings" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.winnings.errors }" />
+                <div *ngIf="submitted && f.winnings.errors" class="invalid-feedback">
+                  <div *ngIf="f.winnings.errors">winnings should be valid</div>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Profit / Loss</label>
+                <input type="text" formControlName="profitOrLoss" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.profitOrLoss.errors }" />
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal" (click)="hide()">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
