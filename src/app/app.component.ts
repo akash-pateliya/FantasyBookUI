@@ -4,7 +4,6 @@ import { AgGridAngular } from 'ag-grid-angular'; // Importing AgGridAngular
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,7 @@ import { environment } from 'src/environments/environment';
 export class AppComponent {
   title = 'FantasyBook';
 
-  url = 'http://localhost:3000';
+  url = 'http://fantasy-book-api.herokuapp.com';
 
   TourLib = ["Big Bash League", "Pro Kabaddi"];
 
@@ -79,7 +78,7 @@ export class AppComponent {
   }
 
   loadGridData() {
-    this.http.get(`${environment.hostUrl}/get-data`).subscribe(
+    this.http.get(`${this.url}/get-data`).subscribe(
       data => {
         this.rowData = data
         this.agGrid.api.setRowData(this.rowData);
@@ -106,7 +105,7 @@ export class AppComponent {
       thisValue: selectedData[0].MatchNo
     }
 
-    this.http.post(`${environment.hostUrl}/delete-data`, body).subscribe(data => {
+    this.http.post(`${this.url}/delete-data`, body).subscribe(data => {
       console.log(data);
       this.loadGridData();
     })
@@ -164,7 +163,7 @@ export class AppComponent {
         ProfitOrLoss: this.registerForm.value.profitOrLoss
       }
       console.log(body);
-      this.http.post(`${environment.hostUrl}/add-data`, body).subscribe(obj => {
+      this.http.post(`${this.url}/add-data`, body).subscribe(obj => {
         console.log(obj);
         this.showModal = false;
         this.loadGridData();
