@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  hostUrl: 'http://localhost:3000'
+  // hostUrl: 'http://localhost:8080'
+  hostUrl: 'http://fantasy-book-api.herokuapp.com'
 };
 
 /*

@@ -3,7 +3,6 @@ import { ViewChild } from '@angular/core'; // Importing ViewChild
 import { AgGridAngular } from 'ag-grid-angular'; // Importing AgGridAngular
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
 
@@ -80,7 +79,7 @@ export class AppComponent {
   }
 
   loadGridData() {
-    this.http.get(`${environment.hostUrl}/fantasybook`).subscribe(
+    this.http.get(`${environment.hostUrl}/get-data`).subscribe(
       data => {
         this.rowData = data
         this.agGrid.api.setRowData(this.rowData);
@@ -107,40 +106,42 @@ export class AppComponent {
       thisValue: selectedData[0].MatchNo
     }
 
-    this.http.post(`${environment.hostUrl}/fantasybook/delete`, body).subscribe(data => {
+    this.http.post(`${environment.hostUrl}/delete-data`, body).subscribe(data => {
       console.log(data);
       this.loadGridData();
     })
   }
 
   updateData() {
-    const selectedData = this.agGrid.api.getSelectedNodes().map(
-      node => node.data
-    );
-    this.registerForm = this.formBuilder.group({
-      tour: [selectedData[0].Tour, [Validators.required]],
-      round: [selectedData[0].Round, [Validators.required]],
-      investment: [selectedData[0].Investment, Validators.required],
-      winnings: [selectedData[0].Winnings, Validators.required],
-      profitOrLoss: [selectedData[0].ProfitOrLoss, Validators.required],
-      dateTime: [selectedData[0].MatchDateTime, Validators.required]
-    });
-    this.showModal = true;
+    // const selectedData = this.agGrid.api.getSelectedNodes().map(
+    //   node => node.data
+    // );
+    // this.registerForm = this.formBuilder.group({
+    //   tour: [selectedData[0].Tour, [Validators.required]],
+    //   round: [selectedData[0].Round, [Validators.required]],
+    //   investment: [selectedData[0].Investment, Validators.required],
+    //   winnings: [selectedData[0].Winnings, Validators.required],
+    //   profitOrLoss: [selectedData[0].ProfitOrLoss, Validators.required],
+    //   dateTime: [selectedData[0].MatchDateTime, Validators.required]
+    // });
+    // this.showModal = true;
 
-    const body = {
-      MatchNo: selectedData[0].MaxMatchNo,
-      MatchDateTime: selectedData[0].MatchDateTime,
-      Tour: selectedData[0].Tour,
-      Round: selectedData[0].Round,
-      Investment: selectedData[0].Investment,
-      Winnings: selectedData[0].Winnings,
-      ProfitOrLoss: selectedData[0].ProfitOrLoss
-    }
+    // const body = {
+    //   MatchNo: selectedData[0].MaxMatchNo,
+    //   MatchDateTime: selectedData[0].MatchDateTime,
+    //   Tour: selectedData[0].Tour,
+    //   Round: selectedData[0].Round,
+    //   Investment: selectedData[0].Investment,
+    //   Winnings: selectedData[0].Winnings,
+    //   ProfitOrLoss: selectedData[0].ProfitOrLoss
+    // }
 
-    this.http.post(`${environment.hostUrl}/fantasybook/update`, body).subscribe(data => {
-      console.log(data);
-      this.loadGridData();
-    })
+    // this.http.post(`${environment.hostUrl}/fantasybook/update`, body).subscribe(data => {
+    //   console.log(data);
+    //   this.loadGridData();
+    // })
+
+    window.alert("Not implemented yet")
   }
 
 
@@ -163,7 +164,7 @@ export class AppComponent {
         ProfitOrLoss: this.registerForm.value.profitOrLoss
       }
       console.log(body);
-      this.http.post('http://localhost:3000/fantasybook/insert', body).subscribe(obj => {
+      this.http.post(`${environment.hostUrl}/add-data`, body).subscribe(obj => {
         console.log(obj);
         this.showModal = false;
         this.loadGridData();
