@@ -13,7 +13,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
   title = 'FantasyBook';
 
-  url = 'http://fantasy-book-api.herokuapp.com';
+  url = 'https://fantasy-book-api.herokuapp.com';
 
   TourLib = ["Big Bash League", "Pro Kabaddi"];
 
