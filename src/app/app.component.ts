@@ -16,7 +16,7 @@ export class AppComponent {
 
   url = 'https://fantasy-book-api.herokuapp.com';
 
-  TourLib = ["Big Bash League", "Pro Kabaddi", "Others", "Legend Series"];
+  TourLib;
 
   @ViewChild('myGrid') agGrid: AgGridAngular; // Accessing the Instance
 
@@ -57,6 +57,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    this.loadTourLibData();
     this.loadGridData();
     this.registerForm = this.formBuilder.group({
       tour: ['', [Validators.required]],
@@ -92,6 +93,12 @@ export class AppComponent {
         this.notifierService.hideAll();
       }
     );
+  }
+
+  loadTourLibData(){
+    this.http.get(`${this.url}/get-lib-tour`).subscribe(data => {
+      this.TourLib = data;
+    });
   }
 
   getSum(items, prop) {
