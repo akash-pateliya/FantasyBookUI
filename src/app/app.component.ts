@@ -4,6 +4,7 @@ import { AgGridAngular } from 'ag-grid-angular'; // Importing AgGridAngular
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,14 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent {
   title = 'FantasyBook';
 
-  url = 'http://fantasy-book-api.herokuapp.com';
+  url = 'https://fantasy-book-api.herokuapp.com';
 
-  TourLib = ["Big Bash League", "Pro Kabaddi"];
+  TourLib = ["Big Bash League", "Pro Kabaddi", "Others", "Legend Series"];
 
   @ViewChild('myGrid') agGrid: AgGridAngular; // Accessing the Instance
 
   model: NgbDateStruct;
-  
+
   rowData: any;
 
   MaxMatchNo: number;
@@ -29,18 +30,18 @@ export class AppComponent {
   TotalWinnings: number;
   TotalProfitLoss: number;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService) { }
 
   columnDefs = [
-    { headerName: 'Match No.', field: 'MatchNo', sortable: true,autoSizeAllColumns : true, filter: true, checkboxSelection: true },
+    { headerName: 'Match No.', field: 'MatchNo', sortable: true, autoSizeAllColumns: true, filter: true, checkboxSelection: true },
     {
-      headerName: 'Date Time', field: 'MatchDateTime', sortable: true,resizable: true, filter: true, width: 300
+      headerName: 'Date Time', field: 'MatchDateTime', sortable: true, resizable: true, filter: true, width: 300
     },
-    { headerName: 'Tour', field: 'Tour', sortable: true,resizable: true, filter: true },
-    { headerName: 'Round', field: 'Round', sortable: true,resizable: true, filter: true },
-    { headerName: 'Investment', field: 'Investment', sortable: true,resizable: true, filter: true },
-    { headerName: 'Winnings', field: 'Winnings', sortable: true,resizable: true, filter: true },
-    { headerName: 'Profit / Loss', field: 'ProfitOrLoss', sortable: true,resizable: true, filter: true }
+    { headerName: 'Tour', field: 'Tour', sortable: true, resizable: true, filter: true },
+    { headerName: 'Round', field: 'Round', sortable: true, resizable: true, filter: true },
+    { headerName: 'Investment', field: 'Investment', sortable: true, resizable: true, filter: true },
+    { headerName: 'Winnings', field: 'Winnings', sortable: true, resizable: true, filter: true },
+    { headerName: 'Profit / Loss', field: 'ProfitOrLoss', sortable: true, resizable: true, filter: true }
   ];
 
   showModal: boolean;
@@ -65,7 +66,7 @@ export class AppComponent {
       profitOrLoss: ['', Validators.required],
       dateTime: [new Date().toDateString(), Validators.required]
     });
-    // this.autoSizeAll();
+
   }
 
   // GetMyRow Function
@@ -78,14 +79,17 @@ export class AppComponent {
   }
 
   loadGridData() {
+    this.notifierService.notify('alert', 'Data is Loading');
     this.http.get(`${this.url}/get-data`).subscribe(
       data => {
         this.rowData = data
+        this.notifierService.hideAll();
         this.agGrid.api.setRowData(this.rowData);
         this.TotalInvestment = this.getSum(data, 'Investment');
         this.TotalWinnings = Math.round(this.getSum(data, 'Winnings'));
         this.TotalProfitLoss = Math.round(this.TotalWinnings - this.TotalInvestment);
         this.MaxMatchNo = Math.max.apply(Math, this.rowData.map(function (o) { return o.MatchNo; }))
+        this.notifierService.hideAll();
       }
     );
   }
@@ -106,7 +110,6 @@ export class AppComponent {
     }
 
     this.http.post(`${this.url}/delete-data`, body).subscribe(data => {
-      console.log(data);
       this.loadGridData();
     })
   }
@@ -158,17 +161,57 @@ export class AppComponent {
         MatchDateTime: this.registerForm.value.dateTime.day + '/' + this.registerForm.value.dateTime.month + '/' + this.registerForm.value.dateTime.year,
         Tour: this.registerForm.value.tour,
         Round: this.registerForm.value.round,
-        Investment: this.registerForm.value.investment,
+        Investment: this.findSum(this.registerForm.value.investment),
         Winnings: this.registerForm.value.winnings,
         ProfitOrLoss: this.registerForm.value.profitOrLoss
       }
-      console.log(body);
+
       this.http.post(`${this.url}/add-data`, body).subscribe(obj => {
-        console.log(obj);
         this.showModal = false;
+        this.notifierService.notify('success', 'Data Added !!');
         this.loadGridData();
       })
     }
+  }
+
+  findSum(str) {
+    let temp = "0";
+
+    // holds sum of all numbers
+    // present in the string
+    let sum = 0;
+
+    // read each character in input string
+    for (let i = 0; i < str.length; i++) {
+      let ch = str[i];
+
+      // if current character is a digit
+      if (!isNaN(ch - parseFloat(ch)))
+        temp += ch;
+
+      // if current character is an alphabet
+      else {
+        // increment sum by number found earlier
+        // (if any)
+        sum += parseInt(temp);
+
+        // reset temporary string to empty
+        temp = "0";
+      }
+    }
+
+    // atoi(temp.c_str()) takes care of trailing
+    // numbers
+    return sum + parseInt(temp);
+  }
+
+  onChange() {
+    const currentTotalWinnings = this.registerForm.value.winnings;
+    const currentTotalInvestment = this.findSum(this.registerForm.value.investment);
+    const currentProfitLoss = Math.round(currentTotalWinnings - currentTotalInvestment);
+    this.registerForm.patchValue({
+      profitOrLoss: currentProfitLoss
+    });
   }
 
 } 

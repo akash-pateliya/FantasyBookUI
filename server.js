@@ -1,16 +1,23 @@
-//Install express server    
 const express = require('express');
+var app = express();
+var port = 9999;
 
-const path = require('path');   
+function getRoot(request, response) {
+    response.sendFile(path.resolve(__dirname +'/dist/FantasyBook/index.html'));
+ }
 
-const app = express();   
+ function getUndefined(request, response) {
+     response.sendFile(path.resolve(__dirname + '/dist/FantasyBook/index.html'));
+ }
 
-// Serve only the static files form the dist directory    
-app.use(express.static(__dirname + '/dist'));
 
-app.get('/*', function(req,res) {  
-    res.sendFile(path.join(__dirname+'/dist/index.html'));   
-});  
+ app.use(express.static(__dirname + '/dist/FantasyBook'));
 
-// Start the app by listening on the default Heroku port    
-app.listen(process.env.PORT || 8080);
+ app.get('/', getRoot);
+ app.get('/*', getUndefined);
+
+ // Start server
+ const PORT = process.env.PORT || 8080;
+ var server = app.listen(PORT, function () {
+     console.log("app running on port.", server.address().port);
+ });

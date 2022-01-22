@@ -5,10 +5,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbDatepickerModule, NgbModalModule, NgbModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap'; // Importing the HTTP Client Module 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { ToastrModule } from 'ngx-toastr';
-
-// import { AlertModule } from 'ngx-bootstrap';
+import { NotifierModule } from 'angular-notifier';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -25,7 +23,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
-    // ToastrModule.forRoot()
+    NotifierModule
   ],
   providers: [],
   bootstrap: [AppComponent],
