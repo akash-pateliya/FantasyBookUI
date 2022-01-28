@@ -30,6 +30,9 @@ export class AppComponent {
   TotalWinnings: number;
   TotalProfitLoss: number;
 
+  isAddModal: boolean = false;
+  isUpdateModal: boolean = false;
+
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService) { }
 
   columnDefs = [
@@ -48,12 +51,15 @@ export class AppComponent {
   registerForm: FormGroup;
   submitted = false;
   show() {
+    this.isAddModal = true;
+    this.registerForm.reset();
     this.showModal = true; // Show-Hide Modal Check
-
   }
   //Bootstrap Modal Close event
   hide() {
     this.showModal = false;
+    this.isAddModal = false;
+    this.isUpdateModal = false;
   }
 
   ngOnInit() {
@@ -107,55 +113,6 @@ export class AppComponent {
     }, 0);
   }
 
-  deleteData() {
-    const selectedData = this.agGrid.api.getSelectedNodes().map(
-      node => node.data
-    );
-    const body = {
-      keyValue: "MatchNo",
-      thisValue: selectedData[0].MatchNo
-    }
-
-    this.http.post(`${this.url}/delete-data`, body).subscribe(data => {
-      this.loadGridData();
-    })
-  }
-
-  updateData() {
-    // const selectedData = this.agGrid.api.getSelectedNodes().map(
-    //   node => node.data
-    // );
-    // this.registerForm = this.formBuilder.group({
-    //   tour: [selectedData[0].Tour, [Validators.required]],
-    //   round: [selectedData[0].Round, [Validators.required]],
-    //   investment: [selectedData[0].Investment, Validators.required],
-    //   winnings: [selectedData[0].Winnings, Validators.required],
-    //   profitOrLoss: [selectedData[0].ProfitOrLoss, Validators.required],
-    //   dateTime: [selectedData[0].MatchDateTime, Validators.required]
-    // });
-    // this.showModal = true;
-
-    // const body = {
-    //   MatchNo: selectedData[0].MaxMatchNo,
-    //   MatchDateTime: selectedData[0].MatchDateTime,
-    //   Tour: selectedData[0].Tour,
-    //   Round: selectedData[0].Round,
-    //   Investment: selectedData[0].Investment,
-    //   Winnings: selectedData[0].Winnings,
-    //   ProfitOrLoss: selectedData[0].ProfitOrLoss
-    // }
-
-    // this.http.post(`${environment.hostUrl}/fantasybook/update`, body).subscribe(data => {
-    //   console.log(data);
-    //   this.loadGridData();
-    // })
-
-    window.alert("Not implemented yet")
-  }
-
-
-  get f() { return this.registerForm.controls; }
-
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -177,9 +134,72 @@ export class AppComponent {
         this.showModal = false;
         this.notifierService.notify('success', 'Data Added !!');
         this.loadGridData();
+        this.isAddModal = false;
       })
     }
   }
+
+  deleteData() {
+    const selectedData = this.agGrid.api.getSelectedNodes().map(
+      node => node.data
+    );
+    const body = {
+      keyValue: "MatchNo",
+      thisValue: selectedData[0].MatchNo
+    }
+
+    this.http.post(`${this.url}/delete-data`, body).subscribe(data => {
+      this.loadGridData();
+    })
+  }
+
+  updateData() {
+    const selectedData = this.agGrid.api.getSelectedNodes().map(
+      node => node.data
+    );
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+    if (this.submitted) {
+      const body = {
+        MatchNo: selectedData[0].MatchNo,
+        MatchDateTime: this.registerForm.value.dateTime.day + '/' + this.registerForm.value.dateTime.month + '/' + this.registerForm.value.dateTime.year,
+        Tour: this.registerForm.value.tour,
+        Round: this.registerForm.value.round,
+        Investment: this.findSum(this.registerForm.value.investment),
+        Winnings: this.registerForm.value.winnings,
+        ProfitOrLoss: this.registerForm.value.profitOrLoss
+      }
+
+      this.http.post(`${this.url}/update-data`, body).subscribe(data => {
+        this.showModal = false;
+        this.notifierService.notify('success', 'Data Updated !!');
+        this.loadGridData();
+        this.isUpdateModal = false;
+        this.submitted = false;
+      })
+    }
+  }
+
+  updateModal(){
+    this.isUpdateModal = true;
+    const selectedData = this.agGrid.api.getSelectedNodes().map(
+      node => node.data
+    );
+    this.registerForm = this.formBuilder.group({
+      tour: [selectedData[0].Tour, [Validators.required]],
+      round: [selectedData[0].Round, [Validators.required]],
+      investment: [selectedData[0].Investment, Validators.required],
+      winnings: [selectedData[0].Winnings, Validators.required],
+      profitOrLoss: [selectedData[0].ProfitOrLoss, Validators.required],
+      dateTime: [selectedData[0].MatchDateTime, Validators.required]
+    });
+    this.showModal = true; // Show-Hide Modal Check
+  }
+
+  get f() { return this.registerForm.controls; }
 
   findSum(str) {
     let temp = "0";

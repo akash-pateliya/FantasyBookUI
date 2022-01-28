@@ -10,7 +10,7 @@
 </div>
 <div>
   <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
-  <button (click)="updateData()" type="button" class="btn btn-warning">Update Data</button>
+  <button (click)="updateModal()" type="button" class="btn btn-warning">Update Data</button>
   <button (click)="deleteData()" type="button" class="btn btn-danger">Delete Data</button>
 </div>
 <notifier-container></notifier-container>
@@ -30,7 +30,7 @@
         <h4 class="modal-title" id="myModalLabel">Register</h4>
       </div>
       <div class="modal-body">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="registerForm">
           <div class="row">
             <div class="col-sm-6">
               <div class="form-group">
@@ -93,7 +93,8 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button  *ngIf="isAddModal" (click)="onSubmit()" class="btn btn-primary">Submit</button>
+          <button *ngIf="isUpdateModal" (click)="updateData()" class="btn btn-warning">Update</button>
         </form>
 
 
