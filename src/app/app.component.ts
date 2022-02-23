@@ -43,9 +43,10 @@ export class AppComponent {
     },
     { headerName: 'Tour', field: 'Tour', sortable: true, resizable: true, filter: true },
     { headerName: 'Round', field: 'Round', sortable: true, resizable: true, filter: true },
-    { headerName: 'Investment', field: 'Investment', sortable: true, resizable: true, filter: true },
-    { headerName: 'Winnings', field: 'Winnings', sortable: true, resizable: true, filter: true },
-    { headerName: 'Profit / Loss', field: 'ProfitOrLoss', sortable: true, resizable: true, filter: true }
+    { headerName: 'Investment', field: 'Investment',width: 135, sortable: true, resizable: true, filter: true },
+    { headerName: 'Winnings', field: 'Winnings', width: 135,sortable: true, resizable: true, filter: true },
+    {
+      headerName: 'Profit / Loss', field: 'ProfitOrLoss',width: 135, sortable: true, resizable: true, voaltile: true, filter: true, cellStyle: params => Number(params.value) > 0 ? { color: 'yellow', backgroundColor: 'green' } : { color: 'black', backgroundColor: 'red' }}
   ];
 
   showModal: boolean;
