@@ -43,10 +43,10 @@ export class AppComponent {
     },
     { headerName: 'Tour', field: 'Tour', width: 150, sortable: true, resizable: true, filter: true },
     { headerName: 'Round', field: 'Round', width: 160, sortable: true, resizable: true, filter: true },
-    { headerName: 'Investment', field: 'Investment', width: 135, sortable: true, resizable: true, filter: true },
-    { headerName: 'Winnings', field: 'Winnings', width: 135, sortable: true, resizable: true, filter: true },
+    { headerName: 'Investment', field: 'Investment', width: 135, sortable: true, resizable: true, filter: true,cellStyle: {textAlign: 'center'} },
+    { headerName: 'Winnings', field: 'Winnings', width: 135, sortable: true, resizable: true, filter: true,cellStyle: {textAlign: 'center'} },
     {
-      headerName: 'Profit / Loss', field: 'ProfitOrLoss', width: 135, sortable: true, resizable: true, voaltile: true, filter: true, cellStyle: params => Number(params.value) > 0 ? { color: 'yellow', backgroundColor: 'green' } : { color: 'black', backgroundColor: 'red' }
+      headerName: 'Profit / Loss', field: 'ProfitOrLoss', width: 135, sortable: true, resizable: true, voaltile: true, filter: true, cellStyle: params => Number(params.value) > 0 ? { color: 'black', backgroundColor: 'lime', textAlign: 'center' } : { color: 'black', backgroundColor: 'red' , textAlign: 'center'}
     }
   ];
 
