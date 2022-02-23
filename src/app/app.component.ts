@@ -14,7 +14,8 @@ import { NotifierService } from 'angular-notifier';
 export class AppComponent {
   title = 'FantasyBook';
 
-  url = 'https://fantasy-book-api.herokuapp.com';
+  // url = 'https://fantasy-book-api.herokuapp.com';
+  url = 'http://localhost:8080';
 
   TourLib;
 
@@ -135,6 +136,7 @@ export class AppComponent {
         this.notifierService.notify('success', 'Data Added !!');
         this.loadGridData();
         this.isAddModal = false;
+        this.submitted = false;
       })
     }
   }
