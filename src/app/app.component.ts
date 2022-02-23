@@ -170,8 +170,8 @@ export class AppComponent {
         MatchDateTime: this.registerForm.value.dateTime.day + '/' + this.registerForm.value.dateTime.month + '/' + this.registerForm.value.dateTime.year,
         Tour: this.registerForm.value.tour,
         Round: this.registerForm.value.round,
-        Investment: this.findSum(this.registerForm.value.investment),
-        Winnings: this.registerForm.value.winnings,
+        Investment: this.findSum(String(this.registerForm.value.investment)),
+        Winnings: Number(this.registerForm.value.winnings),
         ProfitOrLoss: this.registerForm.value.profitOrLoss
       }
 
