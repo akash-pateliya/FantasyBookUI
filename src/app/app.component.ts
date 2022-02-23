@@ -14,8 +14,8 @@ import { NotifierService } from 'angular-notifier';
 export class AppComponent {
   title = 'FantasyBook';
 
-  // url = 'https://fantasy-book-api.herokuapp.com';
-  url = 'http://localhost:8080';
+  url = 'https://fantasy-book-api.herokuapp.com';
+  // url = 'http://localhost:8080';
 
   TourLib;
 
