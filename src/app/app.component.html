@@ -1,12 +1,18 @@
 <div class="header">
-  <dl class="dl-horizontal">
-    <dt>Total Investment</dt>
-    <dd>{{ TotalInvestment }}</dd>
-    <dt>Total Winnings</dt>
-    <dd>{{ TotalWinnings }}</dd>
-    <dt>Total Profit / Loss</dt>
-    <dd>{{ TotalProfitLoss }}</dd>
-  </dl>
+  <table>
+    <tr>
+      <th>Total Investment</th>
+      <td><b><i>{{ TotalInvestment }}</i></b></td>
+    </tr>
+    <tr>
+      <th>Total Winnings</th>
+      <td><b><i>{{ TotalWinnings }}</i></b></td>
+    </tr>
+    <tr>
+      <th>Total Profit / Loss</th>
+      <td><b><i>{{ TotalProfitLoss }}</i></b></td>
+    </tr>
+  </table>
 </div>
 <div>
   <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
