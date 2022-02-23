@@ -37,16 +37,17 @@ export class AppComponent {
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService) { }
 
   columnDefs = [
-    { headerName: 'Match No.', field: 'MatchNo', sortable: true, autoSizeAllColumns: true, filter: true, checkboxSelection: true },
+    { headerName: 'Match No.', field: 'MatchNo', width: 120, sortable: true, autoSizeAllColumns: true, filter: true, checkboxSelection: true },
     {
-      headerName: 'Date Time', field: 'MatchDateTime', sortable: true, resizable: true, filter: true, width: 300
+      headerName: 'Match Date', field: 'MatchDateTime', width: 160, sortable: true, resizable: true, filter: true
     },
-    { headerName: 'Tour', field: 'Tour', sortable: true, resizable: true, filter: true },
-    { headerName: 'Round', field: 'Round', sortable: true, resizable: true, filter: true },
-    { headerName: 'Investment', field: 'Investment',width: 135, sortable: true, resizable: true, filter: true },
-    { headerName: 'Winnings', field: 'Winnings', width: 135,sortable: true, resizable: true, filter: true },
+    { headerName: 'Tour', field: 'Tour', width: 150, sortable: true, resizable: true, filter: true },
+    { headerName: 'Round', field: 'Round', width: 160, sortable: true, resizable: true, filter: true },
+    { headerName: 'Investment', field: 'Investment', width: 135, sortable: true, resizable: true, filter: true },
+    { headerName: 'Winnings', field: 'Winnings', width: 135, sortable: true, resizable: true, filter: true },
     {
-      headerName: 'Profit / Loss', field: 'ProfitOrLoss',width: 135, sortable: true, resizable: true, voaltile: true, filter: true, cellStyle: params => Number(params.value) > 0 ? { color: 'yellow', backgroundColor: 'green' } : { color: 'black', backgroundColor: 'red' }}
+      headerName: 'Profit / Loss', field: 'ProfitOrLoss', width: 135, sortable: true, resizable: true, voaltile: true, filter: true, cellStyle: params => Number(params.value) > 0 ? { color: 'yellow', backgroundColor: 'green' } : { color: 'black', backgroundColor: 'red' }
+    }
   ];
 
   showModal: boolean;
