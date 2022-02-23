@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbDatepickerModule, NgbModalModule, NgbModule, NgbTimepickerModule } from '@ng-bootstrap/ng-bootstrap'; // Importing the HTTP Client Module 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule } from 'angular-notifier';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
-    NotifierModule
+    NotifierModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
