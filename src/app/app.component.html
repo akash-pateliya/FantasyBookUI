@@ -1,33 +1,40 @@
-<div class="header">
-  <table>
-    <tr>
-      <th>Total Investment</th>
-      <td><b><i>{{ TotalInvestment }}</i></b></td>
-    </tr>
-    <tr>
-      <th>Total Winnings</th>
-      <td><b><i>{{ TotalWinnings }}</i></b></td>
-    </tr>
-    <tr>
-      <th>Total Profit / Loss</th>
-      <td><b><i>{{ TotalProfitLoss }}</i></b></td>
-    </tr>
-  </table>
+<div class="topnav">
+  <div class="topnav-right">
+    <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
+    <button (click)="updateModal()" type="button" class="btn btn-warning">Update Data</button>
+    <button (click)="deleteData()" type="button" class="btn btn-danger">Delete Data</button>
+  </div>
 </div>
-<div>
-  <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
-  <button (click)="updateModal()" type="button" class="btn btn-warning">Update Data</button>
-  <button (click)="deleteData()" type="button" class="btn btn-danger">Delete Data</button>
-</div>
-<notifier-container></notifier-container>
-<ag-grid-angular #myGrid style="width: 1500px; height: 550px;" class="ag-theme-alpine" [rowData]="rowData"
+<section>
+  <nav>
+    <table>
+      <tr>
+        <th>Total Investment</th>
+        <td><b><i>{{ TotalInvestment }}</i></b></td>
+      </tr>
+      <tr>
+        <th>Total Winnings</th>
+        <td><b><i>{{ TotalWinnings }}</i></b></td>
+      </tr>
+      <tr>
+        <th>Total Profit / Loss</th>
+        <td><b><i>{{ TotalProfitLoss }}</i></b></td>
+      </tr>
+    </table>
+    <notifier-container></notifier-container>
+  </nav>
+  
+  <article>
+    <ag-grid-angular #myGrid style="width: 1000px; height: 550px;" class="ag-theme-alpine" [rowData]="rowData"
   [columnDefs]="columnDefs">
 </ag-grid-angular>
+  </article>
+</section>
 
-<div class="page-footer">
+<footer>
+  <p>Footer</p>
+</footer>
 
-</div>
-<!-- Creates the bootstrap modal where the image will appear -->
 <div [style.display]="showModal ? 'block' : 'none'" class="modal" id="imagemodal" tabindex="-1" role="dialog"
   aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
