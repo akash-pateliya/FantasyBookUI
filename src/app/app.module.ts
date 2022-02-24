@@ -7,6 +7,8 @@ import { NgbDatepickerModule, NgbModalModule, NgbModule, NgbTimepickerModule } f
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotifierModule } from 'angular-notifier';
 import { ChartsModule } from 'ng2-charts';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,7 @@ import { ChartsModule } from 'ng2-charts';
   ],
   imports: [
     BrowserModule,
-    // BrowserAnimationsModule,
+    BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     HttpClientModule,
     NgbModule,
@@ -24,7 +26,8 @@ import { ChartsModule } from 'ng2-charts';
     NgbDatepickerModule,
     NgbTimepickerModule,
     NotifierModule,
-    ChartsModule
+    ChartsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
