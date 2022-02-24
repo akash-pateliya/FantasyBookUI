@@ -1,13 +1,13 @@
 <div class="topnav">
   <div class="topnav-right">
-    <button (click)="show()" type="button" class="btn btn-primary">Add Data</button>
-    <button (click)="updateModal()" type="button" class="btn btn-warning">Update Data</button>
-    <button (click)="deleteData()" type="button" class="btn btn-danger">Delete Data</button>
+    <button (click)="show()" type="button" class="btn btn-primary" style="margin-right: 25px">Add Data</button>
+    <button (click)="updateModal()" type="button" class="btn btn-warning" style="margin-right: 25px">Update Data</button>
+    <button (click)="deleteData()" type="button" class="btn btn-danger" style="margin-right: 25px">Delete Data</button>
   </div>
 </div>
 <section>
   <nav>
-    <table>
+    <table style="width:100%; height: 40%;" >
       <tr>
         <th>Total Investment</th>
         <td><b><i>{{ TotalInvestment }}</i></b></td>
@@ -25,9 +25,12 @@
   </nav>
   
   <article>
-    <ag-grid-angular #myGrid style="width: 1000px; height: 550px;" class="ag-theme-alpine" [rowData]="rowData"
-  [columnDefs]="columnDefs">
-</ag-grid-angular>
+    <ag-grid-angular #myGrid style="width: 1000px; height: 550px;" class="ag-theme-alpine" 
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [pagination]="true"
+    [paginationPageSize]="10" >
+    </ag-grid-angular>
   </article>
 </section>
 
