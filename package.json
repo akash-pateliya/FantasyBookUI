@@ -33,7 +33,9 @@
     "ng2-charts": "^2.3.0",
     "ngx-bootstrap": "^8.0.0",
     "path": "^0.12.7",
-    "rxjs": "~6.5.4",
+    "ngx-toastr": "^13.1.0",
+    "rxjs": "~6.6.0",
+    "toastr": "^2.1.4",
     "tslib": "^1.10.0",
     "typescript": "~3.8.3",
     "zone.js": "~0.10.2"

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NotifierService } from 'angular-notifier';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,7 @@ export class AppComponent {
   isAddModal: boolean = false;
   isUpdateModal: boolean = false;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService) { }
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService, private toastr: ToastrService) { }
 
   columnDefs = [
     { headerName: 'Match No.', field: 'MatchNo', width: 120, sortable: true, autoSizeAllColumns: true, filter: true, checkboxSelection: true },
@@ -135,7 +136,7 @@ export class AppComponent {
 
       this.http.post(`${this.url}/add-data`, body).subscribe(obj => {
         this.showModal = false;
-        this.notifierService.notify('success', 'Data Added !!');
+        this.toastr.success('Data Added !!', 'Success');
         this.loadGridData();
         this.isAddModal = false;
         this.submitted = false;
@@ -153,6 +154,7 @@ export class AppComponent {
     }
 
     this.http.post(`${this.url}/delete-data`, body).subscribe(data => {
+      this.toastr.error('Deleted', 'Selected Data Deleted !!')
       this.loadGridData();
     })
   }
@@ -179,7 +181,7 @@ export class AppComponent {
 
       this.http.post(`${this.url}/update-data`, body).subscribe(data => {
         this.showModal = false;
-        this.notifierService.notify('success', 'Data Updated !!');
+        this.toastr.show('Success', 'Data Updated !!');
         this.loadGridData();
         this.isUpdateModal = false;
         this.submitted = false;
