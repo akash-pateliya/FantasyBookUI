@@ -4,8 +4,8 @@ import { AgGridAngular } from 'ag-grid-angular'; // Importing AgGridAngular
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { NotifierService } from 'angular-notifier';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent {
   // url = 'http://localhost:8080';
 
   TourLib;
-
+  loader = true;
   @ViewChild('myGrid') agGrid: AgGridAngular; // Accessing the Instance
 
   model: NgbDateStruct;
@@ -35,7 +35,7 @@ export class AppComponent {
   isAddModal: boolean = false;
   isUpdateModal: boolean = false;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private notifierService: NotifierService, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private toastr: ToastrService,private spinner: NgxSpinnerService) { }
 
   columnDefs = [
     { headerName: 'Match No.', field: 'MatchNo', width: 120, sortable: true, autoSizeAllColumns: true, filter: true, checkboxSelection: true },
@@ -90,17 +90,16 @@ export class AppComponent {
   }
 
   loadGridData() {
-    this.notifierService.notify('alert', 'Data is Loading');
+    this.loader = true;
     this.http.get(`${this.url}/get-data`).subscribe(
       data => {
         this.rowData = data
-        this.notifierService.hideAll();
         this.agGrid.api.setRowData(this.rowData);
         this.TotalInvestment = this.getSum(data, 'Investment');
         this.TotalWinnings = Math.round(this.getSum(data, 'Winnings'));
         this.TotalProfitLoss = Math.round(this.TotalWinnings - this.TotalInvestment);
         this.MaxMatchNo = Math.max.apply(Math, this.rowData.map(function (o) { return o.MatchNo; }))
-        this.notifierService.hideAll();
+        this.loader = false;
       }
     );
   }
